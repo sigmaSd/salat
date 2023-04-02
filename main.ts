@@ -4,11 +4,11 @@ import { serve as backendServe } from "./backend/main.ts";
 
 if (import.meta.main) {
   await Promise.all([
-    backendServe(),
     httpServe((req) => {
       return serveDir(req, {
         fsRoot: "./frontend/dist",
       });
     }, { port: 8000 }),
+    backendServe(),
   ]);
 }
