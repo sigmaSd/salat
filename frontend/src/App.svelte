@@ -3,9 +3,10 @@
   import { Coordinates, CalculationMethod, PrayerTimes } from "adhan";
 
   const api = "http://localhost:3000";
-
+  // today in this format 2023-04-02
+  const today = new Date().toISOString().split("T")[0];
   let onlineTimesPromise: Promise<Record<string, string>> = fetch(
-    `${api}/2023-04-02/342/615`
+    `${api}/${today}/342/615` // tunis/tunis
   )
     .then((r) => r.json())
     .then((r) => r.data);
