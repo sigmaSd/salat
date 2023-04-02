@@ -9,6 +9,6 @@ if (import.meta.main) {
       return serveDir(req, {
         fsRoot: "./frontend/dist",
       });
-    }),
+    }, { port: 8000 }),
   ]);
 }
