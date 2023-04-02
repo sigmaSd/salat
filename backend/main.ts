@@ -28,7 +28,7 @@ export const serve = async () => {
   app.use(router.allowedMethods());
 
   console.log("Server listening on http://localhost:3000");
-  await app.listen({ port: 3001 });
+  await app.listen({ port: 3000 });
 };
 
 if (import.meta.main) {
