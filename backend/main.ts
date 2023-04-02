@@ -1,27 +1,36 @@
 import { Application, Router } from "https://deno.land/x/oak@v12.1.0/mod.ts";
 
-const router = new Router();
-router
-  // 2023-04-02/342/615"
-  .get("/:date/:gouvernorat/:delegation", async (context) => {
-    const date = context.params.date;
-    const gouvernorat = context.params.gouvernorat;
-    const delegation = context.params.delegation;
+export const serve = async () => {
+  const router = new Router();
+  router
+    // 2023-04-02/342/615"
+    .get("/:date/:gouvernorat/:delegation", async (context) => {
+      const date = context.params.date;
+      const gouvernorat = context.params.gouvernorat;
+      const delegation = context.params.delegation;
 
-    try {
-      const onlineTimes = await fetch(
-        `https://www.meteo.tn/horaire_gouvernorat/${date}/${gouvernorat}/${delegation}`,
-      ).then((r) => r.json());
-      context.response.body = onlineTimes;
-    } catch {
-      context.response.body = {};
-    }
+      try {
+        const onlineTimes = await fetch(
+          `https://www.meteo.tn/horaire_gouvernorat/${date}/${gouvernorat}/${delegation}`,
+        ).then((r) => r.json());
+        context.response.body = onlineTimes;
+      } catch {
+        context.response.body = {};
+      }
+    });
+
+  const app = new Application();
+  app.use((ctx, next) => {
+    ctx.response.headers.set("Access-Control-Allow-Origin", "*");
+    return next();
   });
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 
-const app = new Application();
-app.use(router.routes());
-app.use(router.allowedMethods());
+  console.log("Server listening on http://localhost:3000");
+  await app.listen({ port: 3000 });
+};
 
-console.log("Server listening on http://localhost:3000");
-await app.listen({ port: 3000 });
-
+if (import.meta.main) {
+  await serve();
+}

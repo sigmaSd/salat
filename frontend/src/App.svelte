@@ -2,8 +2,10 @@
   import Salat from "./lib/Salat.svelte";
   import { Coordinates, CalculationMethod, PrayerTimes } from "adhan";
 
+  const api = "http://localhost:3000";
+
   let onlineTimesPromise: Promise<Record<string, string>> = fetch(
-    "/api/2023-04-02/342/615"
+    `${api}/2023-04-02/342/615`
   )
     .then((r) => r.json())
     .then((r) => r.data);
